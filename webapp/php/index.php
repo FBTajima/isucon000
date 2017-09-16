@@ -371,10 +371,13 @@ $app->post('/', function (Request $request, Response $response) {
         // 投稿のContent-Typeからファイルのタイプを決定する
         if (strpos($_FILES['file']['type'], 'jpeg') !== false) {
             $mime = 'image/jpeg';
+            $ext = '.jpg';
         } elseif (strpos($_FILES['file']['type'], 'png') !== false) {
             $mime = 'image/png';
+            $ext = '.png';
         } elseif (strpos($_FILES['file']['type'], 'gif') !== false) {
             $mime = 'image/gif';
+            $ext = '.gif';
         } else {
             $this->flash->addMessage('notice', '投稿できる画像形式はjpgとpngとgifだけです');
             return redirect($response, '/', 302);
@@ -395,6 +398,10 @@ $app->post('/', function (Request $request, Response $response) {
           $params['body'],
         ]);
         $pid = $db->lastInsertId();
+        $public_folder = $this->get('settings')['public_folder'];
+        $filename = $public_folder . "/img/" . $pid . $ext;
+        file_put_contents($filename, $_FILES['file']['tmp_name']);
+
         return redirect($response, "/posts/{$pid}", 302);
     } else {
         $this->flash->addMessage('notice', '画像が必須です');
