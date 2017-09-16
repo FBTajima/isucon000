@@ -400,7 +400,7 @@ $app->post('/', function (Request $request, Response $response) {
         $pid = $db->lastInsertId();
         $public_folder = $this->get('settings')['public_folder'];
         $filename = $public_folder . "/img/" . $pid . $ext;
-        file_put_contents($filename, $_FILES['file']['tmp_name']);
+        file_put_contents($filename, file_get_contents($_FILES['file']['tmp_name']));
 
         return redirect($response, "/posts/{$pid}", 302);
     } else {
