@@ -90,6 +90,18 @@ $container['helper'] = function ($c) {
             }
         }
 
+        public function image_initialize() {
+            $sql = 'SELECT * FROM posts';
+            $ps = $this->db()->prepare($sql);
+            $i = 0;
+            while($row = $ps->fetch()) {
+                $i++;
+            }
+
+            return $i;
+
+        }
+
         public function fetch_first($query, ...$params) {
             $db = $this->db();
             $ps = $db->prepare($query);
@@ -497,4 +509,11 @@ $app->get('/@{account_name}', function (Request $request, Response $response, $a
     return $this->view->render($response, 'user.php', ['posts' => $posts, 'user' => $user, 'post_count' => $post_count, 'comment_count' => $comment_count, 'commented_count'=> $commented_count, 'me' => $me]);
 });
 
+$app->get('/test', function (Request $request, Response $response) {
+    $i = $this->get('helper')->image_initialize();
+
+    print($i);
+
+
+});
 $app->run();
