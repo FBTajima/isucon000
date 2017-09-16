@@ -80,6 +80,19 @@ $container['helper'] = function ($c) {
             return $this->db;
         }
 
+        public function image_url($post) {
+            $ext = '';
+            if ($post['mime'] === 'image/jpeg') {
+                $ext = '.jpg';
+            } else if ($post['mime'] === 'image/png') {
+                $ext = '.png';
+            } else if ($post['mime'] === 'image/gif') {
+                $ext = '.gif';
+            }
+            return "/image/{$post['id']}{$ext}";
+
+        }
+
         public function db_initialize() {
             $db = $this->db();
             $sql = [];
@@ -98,7 +111,7 @@ $container['helper'] = function ($c) {
             $sql = 'SELECT * FROM posts';
             $ps = $this->db()->query($sql);
             while($row = $ps->fetch()) {
-                $filename = $this->settings['image_folder'] . image_url(row);
+                $filename = $this->settings['image_folder'] . $this->image_url(row);
                 file_put_contents($filename, $row['imgdata']);
             }
         }
