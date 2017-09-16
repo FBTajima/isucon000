@@ -231,6 +231,7 @@ function calculate_passhash($account_name, $password) {
 
 $app->get('/initialize', function (Request $request, Response $response) {
     $this->get('helper')->db_initialize();
+    $this->get('helper')->image_initialize();
     return $response;
 });
 
@@ -522,8 +523,4 @@ $app->get('/@{account_name}', function (Request $request, Response $response, $a
     return $this->view->render($response, 'user.php', ['posts' => $posts, 'user' => $user, 'post_count' => $post_count, 'comment_count' => $comment_count, 'commented_count'=> $commented_count, 'me' => $me]);
 });
 
-$app->get('/test', function (Request $request, Response $response) {
-    $i = $this->get('helper')->image_initialize();
-
-});
 $app->run();
