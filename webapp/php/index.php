@@ -89,7 +89,7 @@ $container['helper'] = function ($c) {
             } else if ($post['mime'] === 'image/gif') {
                 $ext = '.gif';
             }
-            return "/image/" . $post['id'] . $ext;
+            return "/img/" . $post['id'] . $ext;
         }
 
         public function db_initialize() {
