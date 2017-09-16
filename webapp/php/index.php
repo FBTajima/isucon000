@@ -89,8 +89,7 @@ $container['helper'] = function ($c) {
             } else if ($post['mime'] === 'image/gif') {
                 $ext = '.gif';
             }
-            return "/image/{$post['id']}{$ext}";
-
+            return "/image/" . $post['id'] . $ext;
         }
 
         public function db_initialize() {
@@ -111,7 +110,7 @@ $container['helper'] = function ($c) {
             $sql = 'SELECT * FROM posts';
             $ps = $this->db()->query($sql);
             while($row = $ps->fetch()) {
-                $filename = $this->settings['image_folder'] . $this->image_url(row);
+                $filename = $this->settings['public_folder'] . $this->image_url($row);
                 file_put_contents($filename, $row['imgdata']);
             }
         }
