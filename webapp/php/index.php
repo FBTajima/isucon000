@@ -36,7 +36,7 @@ $config = [
     ]
 ];
 
-$config['settings']['image_folder'] = $config['settings']['public_folder'] . '/image';
+$config['settings']['image_folder'] = $config['settings']['public_folder'] . '/img';
 
 // memcached session
 ini_set('session.save_handler', 'memcached');
@@ -73,7 +73,7 @@ $container['helper'] = function ($c) {
     return new class($c) {
         public function __construct($c) {
             $this->db = $c['db'];
-            $this->config = $c;
+            $this->settings = $c['settings'];
         }
 
         public function db() {
@@ -96,10 +96,9 @@ $container['helper'] = function ($c) {
         public function image_initialize() {
             $this->db()->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, false);
             $sql = 'SELECT * FROM posts';
-            $ps = $this->db()->prepare($sql);
-            $i = 0;
+            $ps = $this->db()->query($sql);
             while($row = $ps->fetch()) {
-                $filename = $this->config['image_folder'] . '/' . $row['id'];
+                $filename = $this->settings['image_folder'] . image_url(row);
                 file_put_contents($filename, $row['imgdata']);
             }
         }
