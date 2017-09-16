@@ -25,7 +25,7 @@ const UPLOAD_LIMIT = 10 * 1024 * 1024;
 
 $config = [
     'settings' => [
-        'public_folder' => dirname(dirname(__DIR__)) . '/public',
+        'public_folder' => dirname(dirname(__DIR__)) . '/webapp/public',
         'db' => [
             'host' => $_ENV['ISUCONP_DB_HOST'] ?? 'localhost',
             'port' => $_ENV['ISUCONP_DB_PORT'] ?? 3306,
